@@ -1,0 +1,1060 @@
+SECTION 1: JavaScript Essentials
+3. section introduction
+JS syntax, variable, data type, operator, type coercion, cond statements
+4. Download Source code
+5. What is Js?
+JavaScript is an client side lang, with Node.JS it works for the backend as well
+Framework: jQuery, AngularJS, React, Vue.JS
+JS: OOP language. Everything is a JS Object.
+HTML: skeleton of the human
+CSS: body of human.
+JS: add action to the human, make website interactive.
+History of JavaScript:
+1995: Netscape created LiveScript
+1997: ECMAScript1 was released;
+2009: ECMAScript5 (ES5) was released;
+2015: ECMAScript2015 (ES6);
+2017: ECMASCript2017 (ES8);
+2018: //             (ES9);
+6. Set up
+Browser and VScode
+7. How to Write JavaScript
+Js file use js engine and translate to Browser
+js read code line by line
+Create a script.js file in folder
+import by <script src="script.js"> in html file
+8. JS syntax
+syntax parser: check code character by character
+var firstName="John";
+var lastnam "Smith"; // will give error
+
+9. Variable
+var keyword: JS engine create memory space, which it can store the data.
+var person = 'instructor';
+console.log(person)
+person = "teacher";
+console.log(person)
+var firstName = "Job",
+    lastName = "Main",
+    age = 27;
+console.log(firstName + " " + lastName + " age: " + age)
+10. Data type
+Primitive Data: String, Number, Boolean, Undefined, and Null
+var str = 'Hung\'s my name'; //str is black
+console.log(str);
+var num = 27.23; // number is blue
+console.log(num);
+var num1 = 5;
+var num2 = 10;
+console.log(num1 > num2)// boolean return false'
+var a;//undefined var declared not assigned a value
+console.log(a)
+//console.log(b) // b is not defined error
+var c = null;
+console.log(c)// return null
+
+11. operators: special function take two param and return result
+var a = 5 + 5 * 5;
+console.log(a);//30
+Google "operator precedence" visit mozilla to learn more
+12. Comparison operators: equality or difference between variable or values
+var a = 5;
+var b = '5';
+a == b// true
+a ===b //false
+a != b //false
+a !== b // true
+13. Type coercion: that a value from one type can be converted to another on run-time
+type coercion happens on run time
+var a = 10 + '5';
+console.log(a); // '105' in string JS coer number into string/ string to number
+var a = 10/'5' // 2
+var a = 10-'5' // 5
+var a = 10*'5' //50
+var c1 = 10 + 5 + 'b'; // '15b' ,coered 15 into string and concat with b
+console.log(c1);//'15b'
+var c = 'b' + 5 + 10; //'b510'
+console.log(c); //b510 convert 5 and 10 to string
+
+var b = 'Hello ' + 'dear ' + 'student';
+console.log(b)// Hello dear student
+console.log(5 === 5 === 5) // 5===5 //true === 5// => false
+false == 0 //not deep equal return true
+false ===0// return false
+true ==1 // return true
+true ===1// return fasle
+
+14. Conditional statements: evaluate condition either true or false
+if (gender === "male") {
+    // 
+    console.log(myChild + ' is my son');
+
+}
+else {
+    console.log(myChild + " is my daughter");
+}
+
+15. If ... Else if...else + Logical operators
+Logical operators
+AND &&
+    true && true => true
+    true && false => false
+    false && false => false
+OR ||
+    true || true => true
+    false || true => true
+    false || false => false
+NOT !
+    !true => false
+    !false => true
+if (5 !== 5 || 4 === 4) {
+    console.log("true")
+}
+else {
+    console.log("false")
+}
+
+16. Coding Task 1
+var Johnscore = 80;
+var Nickscore = 51;
+var lowerLimit = 51;
+if (Johnscore >= lowerLimit && Nickscore >= lowerLimit) {
+    console.log("Both has passed the exam");
+}
+else if (Johnscore >= lowerLimit) {
+    console.log("John passed exams with score:" + Johnscore);
+}
+else if (Nickscore >= lowerLimit) {
+    console.log("Nick passed exams:" + Nickscore);
+}
+else {
+    console.log("Both failed the exams");
+}
+
+SECTION 2: FROM BASIC TO INTERMEDIATE**************************
+function, Arrays, Object, Loops, Date Object, Digital Clock Project
+19. function part1
+groups of series statement to perform a specific Task
+function funName() {
+    console.log("Hello World");
+}
+
+function passExam(name, score) {
+    var passUni = 72;
+    var passCollege = 51;
+    if (score >= passUni) {
+        console.log(name + " has enrolled in university with " + score);
+    }
+    else if (score >= passCollege) {
+        console.log(name + " has enrolled in college with " + score);
+    }
+    else {
+        console.log(name + "has fails")
+    }
+}
+function calculateScore(quizscore, essayScore) {
+    var score = quizscore + essayScore;
+
+    return score;
+}
+passExam("John", calculateScore(40, 30))
+passExam("Ke", 45)
+
+20. function part2
+Statements: instruction to be executed by the web browser;
+Expression produce a value
+//with function Statement, we can invoke function at any where
+funName()
+function funName() {
+    console.log("Hello World");
+}
+//for function Expression, we can ONLY call function after declared
+//if function invoked before definition, it will give error
+//sum(4,5) =>> get error
+var sum = function (a, b) {
+    console.log(4 + 5);
+}
+sum();
+
+21. Arrays
+literal notation.
+var arr = new Array(1,2,true,function...) // not recommended
+var arr = ['John', 10, true, [1, 2, 3],
+    function (name) {
+        return "Hello " + name;
+    },
+];
+arr.push('John')
+console.log(arr)
+console.log(arr[4](arr[0]));
+
+22. Arrays part2
+array methods.
+var color = ['white', 'black', 'red'];
+
+color[0] = 'green'
+//push method add to the end of the array
+color.push("blue");
+//pop the last element of the array
+color.pop()
+
+//remove element at the begining of the array
+color.shift();
+//add element at the begining of the array
+color.unshift("purple")
+// search array for element and return index of the element
+//if found return index, else return -1;
+console.log(color.indexOf("bla"))
+
+if (color.indexOf("blue") === -1) {
+    color.unshift('blue');
+    console.log(color)
+}
+23. Objects - part1
+Everything is Object. Objects are collections of related variables and function
+var person = new Object();
+//create firstname. "dot" is operator
+//bracket is also accessor operator
+var job = 'profession'; 
+var name = 'firstname';
+person.name = 'John';//create name field
+person.name = "BOB"//change a name field
+person['lastname'] = "Smith"; //another type of operator
+person[job] = 'instructor' ;//create a job field
+
+console.log(person)// {firstname: "BOB", lastname: "Smith", job: "instructor"}
+console.log(person.name + " " + person['lastname'] + " " + person[job])//BOB Smith instructor
+console.log(person['lastname'])//Smith
+ANOTHER OBJECT example:
+var person = new Object();
+person.firstname = "Hung";
+person.lastname = "Tang";
+person.son = new Object();
+person.son.name = "Hung jr";
+person.son.age = 5;
+console.log(person); // {firstname: Hung, lastname: Tang, son: {name: Hung jr, age: 5}
+24. OBJECT part2 Literal notation
+var person = {
+    firstname: "Object",
+    lastname: 'Liternal Notation',
+    age: 27,
+    daughter: {
+        name: 'Mary'
+    },
+    myFunc: function (par) {//passing par as an OBJECT***
+        console.log("hello world " + par.daughterName);
+    },
+    familyFunc: function (daughterName, fatherName, daughterage) {
+        console.log(daughterName + " " + fatherName + " " + daughterage);
+    }
+}
+console.log(person)
+console.log(person.daughter.name)
+person.myFunc({ daughterName: "Min" }); //hello world
+person.familyFunc("Lisa", "Moon", 50) //Lisa Moon 50
+25. Loop part1
+var arr = ['john', 'mary', 'nick'];
+for (let i of arr) {
+    console.log(i);
+}
+or for (var i=0; i<arr.length;i++){
+    console.log(arr[i]);
+}
+use continue to skip the condtion and continue looping
+use break to stop where condition is method
+26. Loop part2
+while loop
+var colors = ["red", "white"]
+var i = 0;
+// while (i < colors.length) {
+//     console.log(colors[i]);
+//     i++
+// }
+do {
+    console.log(colors[i])
+    i++;
+} while (i < colors.length)
+27. Date Object
+var date = new Date();
+console.log(date)
+console.log(date.getFullYear()) 
+// print the current date  and time
+//Thu Mar 12 2020 18:32:02 GMT-0700 (Pacific Daylight Time)
+Date methods: https://www.w3schools.com/js/js_date_methods.asp
+var x = date.setFullYear(2020);
+console.log(x)//a number in millisecond
+
+28. Date Object- Digital Clock Project
+check DigitalClock folder
+
+29. Coding task 2
+check Javascript/codingtask2.js
+
+30. Quiz2:
+
+SECTION 3: JS Behind the Scenes********************
+31. section introduction
+Global Execution contect, global object, execution context, execution stack,
+scope chain, hoisting,  Object vs Primitive, this.
+32. JS Behind the Scenes- introduction
+JS engine
+JScode => Web Browser (JS engines)
+1/ Syntax parser: read char by char, if error throw error
+function b {
+    # throw error because missing ()
+}
+2/ Lexical Scope: a piece of entire code physically sits. 
+Most case, lexical scope defined by function
+Lexical Scoping  defines how variable names are resolved in nested functions:
+inner functions contain the scrope of parent functions even if the parent function has returned.
+Example: 
+function b() {
+    var x = 5;
+    c();
+}
+function c() {
+    console.log(x + 5);
+}
+
+b();
+3/ Execution Context: Container, manages the code that is running.
+most cases, created by function
+
+33. Global Execution Context/Object
+HTMLpage => Global execution context in web browser create (Global window Object, this) // this refer to object
+Global Execution Context: a base execution context, manages code which is not in side a function
+It is created immediately when page is loaded
+var name = "John";
+
+function a() {
+    return "Hello";
+}
+// in console, type in window
+window.name = this.name => "John"
+window.a() = this.a() ="Hello"
+
+var obj = {
+    name: 'Nick',
+    b: function () {
+        return 'Hi'
+    }
+}
+//in console, directly access use obj.name, obj.b() 
+
+34. Execution Context, Execution stack
+First, stack contain Global Execution Context first, then add other Execution Context
+stack:
+Execution Context
+Execution Context
+Global Execution Context
+
+Example: 
+function a() {
+    var name = "JOHn";
+    b();
+    console.log(name);
+}
+function b() {
+    var name = "Bob";
+    c();
+    console.log(name);
+}
+function c() {
+    var name = "Nick";
+    console.log(name);
+}
+a(); // Nick, Bob, JOHn
+function a() {
+    a();
+}
+a(); // will throw error because it exceeds execution stack.
+35. SCOPE AND SCOPE chain
+SCOPE: refers to the accessibility of a variable and functions
+SCOPE CHAIN: relationship between global scope and local scopes
+var num1 = 5;
+
+function a() {
+    var num2 = 10;
+    function b() {
+        var num3 = 15;
+        console.log(num1 + num2 + num3);
+    }
+    b(); // execute function b
+}
+a(); // execute function a
+
+36. hoisting: where variable is executed before its initalization
+set up memory space for variables and functions is called hoisting.
+How code is execute:
+Execute context: creation state, and execute state **********
+in creation stage: Global OBJECT, 'this', ScopeChain are created.
+JS engine create memory space for variable and function, it happen BEFORE execution stage/
+console.log(a); // At this time, JS engine found a as an undefined value
+console.log(b());
+var a = 10;
+// function don't get temporary value
+function b() {
+    return 20;
+}console.log(a); // undefined because JS engine
+console.log(b());// 20
+console.log(b1)// undefined because 
+var a = 10;
+function b() {
+    return 20;
+}
+var b1 = function () {// because at creation stage, it just have undefined.
+    // till execution stage, it assigned funtion for b1
+    return 20;
+}
+console.log(a); // 10
+
+if (true) {
+    var a = 10;
+} else {
+    var b = 20; // got undefined because execution state never go here
+}
+console.log(a);
+console.log(b);
+
+ALWAYS INVOKE FUNCTION AFTER ITS DECLARATION
+37. Object and Primitives
+var a = 10;
+var b = a; // b =10
+a = 20;
+console.log(a + " " + b); // 20 10
+
+var c = {
+    name: 'John'
+}
+
+var d = c; // window.d = Nick
+
+c.name = 'Nick' // window.c = 'Nick'
+
+var c = { // new memory point to "peter"
+    name: "peter" //window.c = 'peter' because we assign c new value
+}
+
+38. THIS keyword**************************************************
+function a() {
+    console.log(this);
+    console.log(this === window); //return true
+
+    function b() {
+        console.log(this);// window
+        console.log(this === window);// return true
+    }
+    b();
+}
+a();//window object
+console.log("HERE");
+var name = "BOB"
+var per = {
+    name: "John",
+    lname: "Smith",
+    getFullName: function () {
+        var that = this; //IMPORTANT
+        console.log(this === per); // true this keyword === direct function
+        console.log(this.name + " " + this.lname);
+
+        function greet() { // IMPORTANT
+            console.log("Hi " + that.name); // Hi Bob, because this refer to global window object/varibale ONLY
+            console.log(that.name);
+        }
+        greet()
+    }
+}
+
+var per1 = {
+    name: "Nick",
+    lname: "Doe"
+}
+
+per1.getFullName = per.getFullName;
+
+per.getFullName()
+per1.getFullName(); //
+
+SECTION 4: DOCUMENT OBJECT MODEL (DOM)*******************************************************
+39. SECTION INTRODUCTION 
+Manipulate On individual element
+Manipulate ON Multiple element
+DOM Styles
+DOM Classes....
+40. DOM - introduction
+is a cross-platform and language-independent model for interacting with in HTML documents
+DOM is neither part of HTML, nor part of JS
+DOM As a tree like HTML, each tag is a node
+    <head>
+html
+    <body>
+
+DOM is a collection of nodes
+<p class="par">This is my first paragraph</p>
+41. Get Ready
+EVERYTHING IN DOCUMENT IS OBJECT
+set up the console to dark theme, type document to display element
+typeof document is an object
+window.document // #document
+
+42. Get and Manipulate On individual Element- part1: getElementById*******
+getElementById("id")//return element that has ID with specified value
+*ID is a string can be used to uniquely identify the element, found in the HTML id attribute
+ 
+
+43. Get and manipulate on individual Element- part2:
+// querySelector('selector')******
+return the first element that match a specified CSS selector in the document
+String argument follow CSS syntax
+check C:\Users\ABC\Desktop\Udemy\JavaScriptBootCamp\original\SOURCE CODE\Source Files - Section 004 - Document Object Model (DOM)\Source - Lecture 004 - Get And Manipulate On Individual Element - Part 2
+
+44. Get and manipulate on Multiple Element - Part 1
+//getElementByClassName("class")// return HTMLcollection
+Collection is not an array
+C:\Users\ABC\Desktop\Udemy\JavaScriptBootCamp\original\SOURCE CODE\Source Files - Section 004 - Document Object Model (DOM)\Source - Lecture 006 - GetAnd Manipulate On Multiple Elements - Part 1
+
+45.  Get and manipulate on Multiple Element - Part 2
+//getElementByTagName return a collection of all elements in the document
+// with the specified tag name
+//Return HTMLcollection
+C:\Users\ABC\Desktop\Udemy\JavaScriptBootCamp\original\SOURCE CODE\Source Files - Section 004 - Document Object Model (DOM)\Source - Lecture 006 - GetAnd Manipulate On Multiple Elements - Part 2
+
+46.  Get and manipulate on Multiple Element - Part 3
+//querySelectorAll("selector") return all all elements in the document
+// with the specified CSS selector
+// can select multiple elements with multiple selector separated by commas
+C:\Users\ABC\Desktop\Udemy\JavaScriptBootCamp\original\SOURCE CODE\Source Files - Section 004 - Document Object Model (DOM)\Source - Lecture 006 - GetAnd Manipulate On Multiple Elements - Part 3
+
+47. DOM Styles
+open console, 
+check original file, DOM style lecture
+use shift+ Enter to use multiple line in console.
+
+48. DOM Styles and Classes
+className:
+Get and set the value of class attribut of element
+in style.CSS
+add .changeBg, .changeFt
+
+classList: Returns the class name of element, as a DOMTokenList object
+Useful to add, remove and toggle CSS classes on an element
+classsList is READ ONLY
+
+
+49. EVENTS: actions happen on web page you are programming
+var h2 = document.querySelector('header h2');
+//attach click event
+h2.onclick = function () {
+    console.log("Clicked");
+}
+
+h2.onmouseover = function() {
+    console.log("Onmouseover")
+}
+
+OR
+function a() {
+    console.log("Clicked");
+}
+
+function b() {
+    console.log("Onmouseover")
+}
+in htmlfile/ <h2 onclick ="a()" onmouseover="b()">
+
+50. Events- Part 2
+addEventListener()
+var h2 = document.querySelector('header h2')
+h2.addEventListener('click', a)
+h2.addEventListener('click', b)
+function a() {
+  console.log('clicked a');
+}
+
+function b() {
+  console.log('clicked b');
+}
+EVENT OBJECT: when even occurs, the event object is created.
+function a(e){
+    console.log(e) // MouseEvent
+    console.log(e.target) //
+}
+
+51. Events- Part 3
+check Event part 3 source file
+
+52. Get and Set Attribute
+var div = document.querySelector('div.wrapper')
+console.log(div.getAttribute('class')); //return 'wrapper' class name
+console.log(div.getAttribute('id')); //null
+
+//setAttribute('attr', 'value')
+//set the value of element, if element exist, it get updated
+console.log(div.setAttribute('style', 'background: coral')); //change the background to coral
+
+console.log(div.removeAttribute('style')); //remove the background coral
+console.log(div.hasAttribute('style')); //return true or false
+
+var btn = document.getElementById('add-btn')
+var input = document.getElementById('add-input')
+
+btn.addEventListener('click', function (e) {
+    console.log("btn clicked");
+    e.preventDefault() //prevent default event.
+    input.setAttribute('type', 'submit');
+    input.setAttribute('value', input.value);
+})
+
+53. DOM Navigation
+check Dom navigation file
+
+54. Create Elements
+var newEl = document.createElement('button')
+console.log(newEl); //create <button></button> is an object
+var text = document.createTextNode('new Element');
+console.log(text); // "text" is an object
+
+newEl.appendChild(text);
+newEl.setAttribute('style', 'display: block; margin: 10px auto; padding: 5px 10px; background: coral;')
+console.log(newEl); //<button>new Element</button>
+
+var form = document.getElementById('add')
+form.appendChild(newEl) //add newEl button
+//use insertBefore
+form.insertBefore(newEl, form.children[0]) // new element insert before first children of form
+
+//to remove newEl, first access the parent then use removeChild method
+newEl.parentElement.removeChild(newEl)
+
+55. Project Coding Task 3
+56. Project - Coding Task 3- Solution
+57. Project -Edit And Delete Items - part 1
+58. Project -Edit And Delete Items - part 2
+59. Hide Note
+60. Search Filter
+Quiz 4.
+
+SECTION 5: ADVANCED JAVASCRIPT ****************************************
+61. Section introduction
+Everything is Object
+Function Contructor, Closures, prototype......
+62. Everything is an Object (Except primitives)
+Primitives: strings, number, boolean, undefined, null
+Object: arrays, function, Date...
+var arr = [1, 2, 3];
+arr[3] = 4;
+
+arr.prop = 'Hello' //Object with prop property
+console.log(arr);
+
+//different between object and function are function are invokeable
+function a() {
+    console.log('Hello world');
+}
+a['props'] = 'Hi';
+a.obj = {
+    greet: 'hey'
+}
+a.myFunc = function () {
+    console.log("Hola");
+}
+a();
+//In console, type 'window' and find a()
+
+63. Function Constructor
+Function constructor is used to create the function object
+Built-in function constructors: new Object(), new String()...
+var person1 = {
+
+}
+
+person1.firstname = "John";
+person1.lname = "Smith";
+
+var person2 = {};
+
+person2.firstname = "John";
+person2.lname = "Oliver";
+
+// function createPerson(firstname, lname) {
+//     var newperson = {}
+//     newperson.firstname = firstname;
+//     newperson.lname = lname;
+
+//     return newperson;
+// }
+
+function Person(firstname, lname) { //function constructor
+    // js create var this={};
+    this.firstname = firstname; //this represent new empty object
+    this.lname = lname;         // in this case per3, per4
+
+}
+
+var per3 = new Person('Bob', 'Brown'); //function constructor
+var per4 = new Person('mary', 'Lisa'); //Without New, this will refer to global object
+console.log(person1);
+console.log(person2);
+console.log(per3);
+console.log(per4);
+
+var strObj = new String('Hello str'); // new string object ('Hello str')
+console.log(strObj);
+console.log(typeof strObj);
+
+var numObjt = new Number(123);
+console.log(numObjt);
+
+64. Prototype - Object Function
+Every object inherits properties and methods from its prototype
+Prototype is an object
+var a = {
+
+};
+
+var b = new Object();
+var a = {} //__proto__ also access Prototype Object
+console.log(a);
+console.log(Object.prototype); //access Prototype Object
+Object.prototype.greet = "Hello"; //global object
+console.log(a.greet);
+
+console.log(a); //{} >__proto__: Object
+console.log(b); //{} >__proto__: Object
+in concole, type Object.prototype
+Object.prototype.greet = "hello" // add to a and b prototype greet property
+
+//Global Object function -> prototype object
+// a and b invoke Global Object function
+// then a and b -> prototype object
+
+65. Function Constructor and Prototype
+function a() { }
+// When create function a, Js automatically create Prototype Object
+//a point to Prototype Object
+// a also point to Global Object function
+var b = {} // b ONLY points to Global Object function
+console.log(b.prototype);//cannot access prototype object, only global object
+console.log(a.prototype); //return constructor f a()
+
+console.log(a.prototype.__proto__); // return prototype object
+
+function Person(fname, lname) {
+    this.fname = fname;
+    this.lname = lname;
+}
+var person1 = new Person("John", "Smith");//points to global obj and function Person constructor
+
+var person2 = new Person("Nick", "Doe");
+
+console.log(person1);
+console.log(person2);
+
+Person.prototype.getFullName = function () { //getFullName is saved in function constructor's prototype object
+    return this.fname + " " + this.lname
+}
+Person.prototype.greet = "Hello from prototype object"
+
+
+
+var p1 = new Person('Hung', 'Tang')
+p1.greet; //global prototype object => hello from global prototype obj
+var p2 = new Person('Nick', 'Doe');
+p2.greet =" hello from p2 object"; // hello from p2 object
+console.log(p1);
+console.log(p1.getFullName()); //p1, p2 also points to Prototype Object(function Person) and Global object function
+console.log(p2.getFullName());
+
+//Prototype Chain
+
+66. Object.create();
+console.dir(Object)
+
+var obj = Object.create(Object.prototype, {
+    name: {
+        value: "HungTang"
+    }
+});
+console.log(obj); // {name: "HungTang"}
+//obj.name = "Hung"
+//console.log(obj); //return empty object with prototype
+
+var obj1 = {};
+console.log(obj1); //same as above
+
+//function constructor
+function Person() {
+    this.name = "John";
+}
+console.log(Person.prototype);
+Person.prototype.greet = "Hello"
+console.log(Person);
+
+var person1 = new Person(); // has name property, has greet property
+
+var person2 = Object.create(Person.prototype); // does NOT have name property, has greet property
+
+console.log(person1);
+console.log(person2);
+
+//firstProto
+var firstProto = {
+    sayHello: function () {
+        return "Hello " + this.name;
+    }
+};
+
+var john = Object.create(firstProto, {
+    name: {
+        value: "John"
+    }
+})
+console.log(john.sayHello()); //because john object has sayHello() as property
+
+var secondProto = Object.create(firstProto, {
+    sayHi: {
+        value: function () {
+            return "Hi" + this.name;
+        }
+    }
+})
+
+console.log(secondProto);// return {sayHi: f}, it also has sayHello function from firstproto
+
+var bob = Object.create(secondProto, {
+    name: {
+        value: "Bob"
+    }
+})
+console.log(bob); // return {name: "Bob"}, in __proto__: has sayHi, then has sayHello
+
+
+var obj = Object.create(null);
+console.log(obj); //return empty object with no prototype because of null
+
+67. First-Class Function: PART1
+Store function in a variable
+Use function as a variable
+Pass function as a parameter
+Return function from other function
+
+function sum(num1, num2, f) {
+    console.log(num1 + num2);
+    console.log(f());
+}
+function done() {
+    return "function is executed"
+}
+sum(3, 4, done);
+_______________________________________
+var score = [55, 35, 87, 45];
+
+function checkResult(arr, f) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        newArr.push(f(arr[i]))
+    }
+    return newArr;
+}
+
+function checkPass(score) {
+    if (score >= 51) {
+        return score >= 51;
+    }
+    else {
+        return false
+    }
+}
+
+function checkDiff(score) {
+    return score - 51;
+}
+
+console.log(checkResult(score, checkPass));
+console.log(checkResult(score, checkDiff));
+
+68. First-Class Function: PART2
+function finalResult(score) {
+    if (score >= 81) {
+        return function (name) {
+            console.log(name + "Pass University");
+        }
+    }
+    else if (score >= 51) {
+        return function (name) {
+            console.log(name + "Pass college");
+        }
+    }
+    else {
+        return function (name) {
+            console.log(name + "Failed");
+        }
+    }
+}
+
+var result1 = finalResult(77)
+result1("John")
+
+var result2 = finalResult(44);
+result2("James")
+
+finalResult(96)("Hung"); //short way to execute.
+
+69.*** immediately Invoked Function Expression(IIFE)
+(function (name) {
+    console.log("Hello " + name);
+}("John")); //IIFE
+
+
+var a = function () {
+    console.log("form a");
+    return "Hello";
+}();
+console.log(a); // return Hello
+//a(); //error: a is not a function because it use IIFE to execute already
+
+70.*** Closure: inner function has always access to the variable of outer function even after execution context 
+of the outer function is finished
+function calc(num1) {
+    var num2 = 10;
+
+    return function (num3) {
+        var sum = num1 + num2 + num3;
+        console.log(sum);
+    }
+}
+
+var add = calc(5)
+add(4) //19
+
+/////////////////
+function a() {
+    var arr = [];
+    for (var i = 0; i < 3; i++) {
+        arr.push((function () {
+            console.log(i);
+        })());
+    }
+    return arr;
+}
+
+case 1:
+a(); //return 0 1 2
+case 2:
+var b = a();
+b[0]();
+b[1]();
+b[2]();
+// *********Suppose w/o IIFE, and call b, all 3 result will be 3
+//because arr.push anonamous function without executing it until after the loop
+//at that point i = 3
+
+71. call(), apply(), bind();
+var person = {
+    fname: "John",
+    lname: "Smith",
+    fullname: function () {
+        return this.fname + " " + this.lname;
+    }
+}
+
+var nick = {
+    fname: "Nick",
+    lname: "Doe"
+}
+console.log(person.fullname.call(nick)); //Nick Doe
+
+var definePerson = function (age, job) {
+    console.log(this.fullname() + ' is ' + age + " and he is a " + job);
+
+}
+
+definePerson.call(person, 28, 'dev'); // John Smith is 28 and he is a dev
+definePerson.apply(person, [30, 'designer'])
+
+var getPerson = definePerson.bind(person, 19)//bind does not invoke a function
+getPerson("driver")
+
+QUIZ 5: Advanced JS
+
+SECTION6: JSON & AJAX**********************************************************
+72. JSON Data Types
+Number, String, Object, Array, Boolean, Null
+var myObj = {
+    name: 'John',
+    age: 27,
+    marrried: true,
+    childrentName: ['An', 'Nick']
+}
+//convert to string
+var mydata = JSON.stringify(myObj)
+console.log(mydata);// {'name': 'John', ...}
+
+console.log(typeof mydata); //string
+
+//we receive data as a string from server
+var myObjString = '{"name":"John","age":27,"marrried":true,"childrentName":["An","Nick"]}';
+
+//convert to JSON
+var mynewdata = JSON.parse(myObjString);
+console.log(mynewdata); //{name: "John", age: 27, marrried: true, childrentName: Array(2)}
+
+73. AJAX
+receive data from server and update web page w/o reloading
+Asynchronous JS XML
+JSON: No tags, shorter, quicker, can use arrays
+var xmlHttp = new XMLHttpRequest();
+//use open to get url, check async or sync req
+
+xmlHttp.open("GET", './user.json', true);
+xmlHttp.onload = function () {
+    if (this.status == 200) {
+        var myData = JSON.parse(this.responseText);
+        console.log(myData);
+    }
+}
+xmlHttp.send()
+
+SECTION 7: PROJECT - THE QUIZ APPLICATION******************************************
+
+
+SECTION 8: Next Generation JS
+101. introduction
+102. Array Helper- ForEach()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
