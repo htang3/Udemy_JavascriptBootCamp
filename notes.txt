@@ -1021,6 +1021,13 @@ SECTION 7: PROJECT - THE QUIZ APPLICATION***************************************
 SECTION 8: Next Generation JS
 101. introduction
 102. Array Helper- ForEach()
+var names = ['hung', 'alex', 'mary', 'Jane'];
+
+names.forEach(function (name) {
+    console.log(name);
+})
+
+103. Array Helper - Map()
 
 
 
