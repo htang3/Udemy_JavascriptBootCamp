@@ -1020,15 +1020,130 @@ SECTION 7: PROJECT - THE QUIZ APPLICATION***************************************
 
 SECTION 8: Next Generation JS
 101. introduction
-102. Array Helper- ForEach()
+102. Array Helper- ForEach()***
 var names = ['hung', 'alex', 'mary', 'Jane'];
 
 names.forEach(function (name) {
     console.log(name);
 })
 
-103. Array Helper - Map()
+103. Array Helper - Map()****
+var newNameid = [];
 
+// for (var i = 0; i < names.length; i++) {
+//     newNameid.push(names[i] + Math.random()) //Type coersion
+// }
+console.log(names);
+console.log(newNameid);
+
+var mapArr = names.map(function (name) {//////////////
+    return name + Math.random()
+})
+console.log(names);
+console.log(mapArr);
+////////////////////////
+var persons = [
+    { fname: "John", lname: "Smith" },
+    { fname: "Nick", lname: "Doe" }
+]
+
+var getFirstName = persons.map(function (person) {
+    return person.fname; //return fname of every person in the array
+})
+
+console.log(persons);
+console.log(getFirstName);
+104. Arrays Helpers - Filter/find
+FIlter: filter out all element matches condition
+
+var persons = [
+    { fname: "John", gender: "male" },
+    { fname: "Nick", gender: "male" },
+    { fname: "Nicole", gender: "fmale" }
+]
+
+var newArrMale = persons.filter(function (person) {
+    return person.gender === "male"
+})
+
+console.log(newArrMale);
+
+FIND: return the first element match condtion
+
+var persons = [
+    { fname: "John", gender: "male" },
+    { fname: "Nick", gender: "male" },
+    { fname: "Nicole", gender: "fmale" }
+]
+
+var newArrMale = persons.find(function (person) {
+    return person.gender === "male" //after it find the person made condition, it stope iteration
+})
+
+console.log(newArrMale);
+
+105. Array Helpers -every()/some()  return true or false
+var persons = [
+    { name: "john", age: 30 },
+    { name: "jo", age: 5 },
+    { name: "j", age: 18 },
+]
+Every: return true or false
+var every = persons.every(function (person) {
+    return person.age >= 18; //if one of the person <18, return false
+})
+console.log(every);
+
+var x = 0
+
+var every = persons.every(function (person) {
+    console.log(++x);//this make x return 1
+    return person.age >= 18; // as soon as one person age is <18, return false
+})
+console.log(every);
+
+Some(): return some value with true condition, as soon as 1 condition true, it return true
+var x = 0
+var some = persons.some(function (person) {
+    console.log(++x);
+    return person.age > 18;
+})
+console.log(some);
+
+106. Arrays Helper - reduce();
+var persons = [100, 200, 300];
+
+var sum = 0;
+for (var i = 0; i < persons.length; i++) {
+    sum += persons[i];
+}
+console.log(sum);
+
+console.log("_____________________");
+
+var total = persons.reduce(function (prev, current) {
+    return prev + current;
+}, 0)
+console.log(total);
+//0 is inital value, prev= prev+ current, then current value is next element
+console.log("_____________________");
+var weeklyEarnings = [750, 642, 823, 1400];
+
+var income = weeklyEarnings.reduce(function (prev, earning) {
+    return prev + earning;
+}, 5000) //we can set value of initial income
+console.log(income);
+console.log("_____________________");
+var firstname = ["john", "mary"]
+
+var Lname = ["Smith", "Lance"]
+
+var fullname = firstname.reduce(function (prev, firstname, index) {
+    prev.push(firstname + " " + Lname[index]);
+    return prev;
+}, [])
+
+console.log(fullname);
 
 
 
