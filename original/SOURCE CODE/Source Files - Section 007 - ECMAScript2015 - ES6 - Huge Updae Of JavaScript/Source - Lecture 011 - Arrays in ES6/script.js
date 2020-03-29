@@ -34,7 +34,12 @@ for(let li of lis) {
 }
 */
 
-
+const lis = document.getElementsByTagName('li')
+for (let li of lis) {
+    li.addEventListener('click', () => {
+        li.classList.toggle('change')
+    })
+}
 
 
 

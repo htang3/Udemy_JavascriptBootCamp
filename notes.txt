@@ -1145,6 +1145,411 @@ var fullname = firstname.reduce(function (prev, firstname, index) {
 
 console.log(fullname);
 
+107. let/const Variable********
+const name = "John"
+let age = 27;
+age = 29
+//name = "Nick" // will give error since we defined const for name
+console.log(name, age);
+
+let person = "John Smith";
+let person = "Nick Doe"
+//in ES6 (let), cannot override variable person, will throw syntax error
+// in ES5(var), we can override variable person with Nick Doe
+
+// console.log(person); //will give error instead of undefined
+let person = "hung tang"
+console.log(person);
+//var a = 10; //in console, window.a = 10
+//let a = 10; //window.a => undefined
+//const a = 10; //window.a => undefined
+
+function a() {
+    var b = "Hello";
+}
+console.log(b);//  b is not defined, same with let and const
+
+if (true) {
+    var fname = "John";
+}
+console.log(fname); //John, let and const will give error
+// let and const is block scope (block if else)
+
+let fname = "Nick";
+
+const person = {
+    name: "Jane",
+    age: 18
+}
+
+if (true) {
+    fname = "John"
+    person.age = 19;
+}
+console.log(person); //{name: "Jane", age: 19}// when we use const declaration of an object, we can manipulate property of that object
+
+for (let i = 0; i < 5; i++) {
+    console.log(i); //print 0 ->4
+}
+console.log(i);// for var it prints 5, for let it throws error
+
+(function () {
+    var a = 10;
+})();
+
+//console.log(a); // wiill give error because a is not defnined
+
+{
+    var b = 30;
+}
+console.log(b); // will give error because b is not defined
+// var b = 30 will print 30
+
+//use var to define global variable
+// use let when use ES6, or update dynamically values
+// ES6, always use const
+
+108. Template String
+const name = "Jou";
+let age = 28;
+
+let profession = "instructor";
+
+function personES5() {
+    console.log(name + " " + "he is " + age + "\n he is a " + profession);
+}
+personES5();
+
+function personES6() {
+    console.log(`My name is ${name}, 
+    I am ${age}, and I am ${profession}`); //hit enter to break line
+}
+personES6()
+
+function experience(company1, company2) {
+    console.log(`I have ' + ${company1 + company2} + 'yoE'`);
+    //for ES6 ${company1+ company2}
+}
+experience(3, 4); 
+
+Built-In String methods
+let greet = "Hello world";
+
+console.log(greet.startsWith("Hello"));// return true, case sensitive
+console.log(greet.endsWith("World")); // return false
+console.log(greet.includes('wo'));// true because world
+console.log(greet.repeat(3)); // repeat hello world 3 times
+
+109. Arrow Functions - part1
+const multiply = (x, y) => x * y;
+console.log(multiply(5, 6));
+
+const multiply = () => 5 * 10;
+console.log(multiply());
+
+const multiply = () => ({ firstname: "John" });
+console.log(multiply());
+
+110.Arrow Functions - Part2
+const numbers = [2, 3, 4, 5, 6];
+
+let double = numbers.map((number) => {
+    return number * 2;
+})
+console.log(double);
+
+
+var personES5 = {
+    fname: "Nick",
+    lname: "Doe",
+    fullname: function () {
+        var that = this;
+        return function () {
+            console.log(this);
+            console.log(this.fname + " " + this.lname);
+        }.bind(this)
+    }
+}
+
+personES5.fullname()();
+
+
+var personES6 = {
+    fname: "Nick",
+    lname: "Doe",
+    fullname: function () {
+        return () => {
+            console.log(this.fname + " " + this.lname);
+        }
+    }
+}
+
+personES6.fullname()();
+
+document.querySelector('h1').addEventListener('click', function () {
+    console.log(this);
+    let a = () => {
+        this.style.color = "red";
+    }
+    a();
+})
+
+111. Arrays in ES6:
+const li = document.getElementsByTagName('li'); // return all the tag with li
+console.log(li);
+//const lisArr = Array.from(li)
+//Array.prototype.slice.call(li) also works
+Array.from(li).forEach(l => {
+    l.addEventListener('click', () => {
+        l.classList.toggle('change')
+    })
+})
+
+Same as above
+const lis = document.getElementsByTagName('li')
+for (let li of lis) {
+    li.addEventListener('click', () => {
+        li.classList.toggle('change')
+    })
+}
+
+112. Default Parameters
+function person(fname, lname, profession) {
+    if (lname === undefined) {
+        lname = "Smith"
+    }
+    profession = profession || 'programmer'
+    console.log(`I am ${fname} ${lname} and I am ${profession}`);
+}
+person('John', "DOe") //this is ES5, if one param missing, we can set condition inside function to fix
+// i am john undefined and i am undefined if there is no condition in function
+
+
+function personES6(fname = "Joun", lname = "Smith", profession = "Programmer") {
+    console.log(`I am ${fname} ${lname} and I am a ${profession}`);
+}
+personES6("Nick") // I am Nick  Smith and I am a Programmer
+
+113. Spread operator
+const number1 = [1, 3, 5, 7]
+const number2 = [2, 4, 6, 8]
+let number3 = number1.concat(number2)
+console.log(number3); //[1, 3, 5, 7, 2, 4, 6, 8]
+
+let number3ES6 = [];
+
+number3ES6 = number3ES6.concat(number1)
+number3ES6 = number3ES6.concat(number2)
+console.log(number3ES6); //[1, 3, 5, 7, 2, 4, 6, 8]
+
+const number4 = [10, ...number1, ...number2]; //SPREAD Operator
+console.log(number4);
+
+
+let names = ['Jame', 'Alex', 'ANn'];
+
+let namesCopy = [...names];
+names.push("John")
+console.log(names); //["Jame", "Alex", "ANn", "John"]
+console.log(namesCopy); //["Jame", "Alex", "ANn"]
+
+function sum(x, y, z) {
+    console.log(x + y + z);
+
+}
+
+let numbers = [10, 20, 30];
+
+sum.apply(null, numbers)
+sum(...numbers) //Spread Operator
+
+114. Rest Operator
+// const a = function (x, y) {
+//     console.log(Array.prototype.slice.call(arguments));
+//     console.log(x + y + arguments[2] + arguments[3]);
+// }
+// a(10, 20, 30, 40)//30
+
+// const a = (x, y, ...rest) => { //REST Operator
+//     console.log(rest); //[30,40]
+//     console.log(x + y + rest[0] + rest[1]);
+// }
+// a(10, 20, 30, 40)
+
+const family = (lname, ...names) => {
+    names.forEach(name => {
+        console.log(`${name} and ${lname}`);
+    })
+}
+family("Smith", "Nick", "Jane", "Bob")
+//Nick and Smith
+// Jane and Smith
+// Bob and Smith
+
+115. Destructuring
+const arr = [10, 20, 30, 40, 50];
+// const ten = arr[0];
+// const twenty = arr[1];
+
+//ES6 Destructuring
+
+const [ten, twenty, , forty, ...items] = arr; //ES extract ten = arr[0], twenty=[1]
+console.log(ten, twenty, forty, ...items); // 10,20, 40 , items return as array
+//use
+/////////////////Object
+const person = {
+    fname: "John",
+    lname: "Smith",
+    age: 30
+}
+
+// const a = person.fname
+// const b  = person.lname
+const { age, fname, lname } = person;
+console.log(age, fname, lname);
+
+
+//////////////function
+const aboutMe = john => {
+    const { fname, lname, age } = john;
+    console.log(`I am ${fname} ${lname} and I am ${age}`);
+}
+aboutMe(person) //I am John Smith and I am 30
+
+const aboutJohn = ({ fname, lname, age }) => {
+    console.log(`I am ${fname} ${lname} and I am ${age}`);
+}
+aboutJohn(person)//I am John Smith and I am 30
+
+116. Map and Set
+//Map store any data type 
+/*
+const mapDate = new Map([
+    [10, 'ten'],
+    ['isMarried', false]
+]);
+mapDate.set('name', "John")
+
+mapDate.set(true, "Yes")
+const obj = {};
+mapDate.set(obj, 'person')
+console.log(mapDate); //{name=> John}
+
+//get the size
+console.log(mapDate.size);
+
+//get item
+console.log(mapDate.get('name'));
+//check if key exists
+console.log(mapDate.has(obj)); //true
+//delete
+mapDate.delete(10);
+console.log(mapDate);
+//delete entire map
+//console.log(mapDate.clear());
+// mapDate.forEach((value, key) => {
+//     console.log(value, key);
+// })
+for (let value of mapDate.values()) {
+    console.log(value); // print all the value
+}
+
+//get key and values
+for (let arr of mapDate.entries()) {
+    console.log(arr); // print all the key and its value in array
+}
+//get key and values without array
+for (let [key, value] of mapDate.entries()) {
+    console.log(key, value);
+}
+*/
+//SETTTTTTTTTTT only store unique values
+const setData = new Set([
+    'John', 10, false, { fname: 'Bob' }
+]);
+
+//add item using add();
+setData.add("nick")
+
+console.log(setData);
+
+for (let value of setData.values()) {
+    console.log(value);
+}
+
+for (let value of setData.entries()) {
+    console.log(value); //return value duplicated
+}
+
+117. Classes
+function PersonES5(fname, lname, age) {
+    this.fname = fname;
+    this.lname = lname;
+    this.age = age
+}
+PersonES5.prototype.aboutPerson = function () {
+    console.log("My name is " + this.fname + " " + this.lname + this.age);
+}
+function DeveloperES5(fname, lname, age, experience, projects) {
+    PersonES5.call(this, fname, lname, age) //call Person ES5
+    this.experience = experience;
+    this.projects = projects;
+}
+DeveloperES5.prototype = PersonES5.prototype;//create copy prototype of es5
+DeveloperES5.prototype.aboutDev = function () {
+    console.log(`My name is ${this.fname} ${this.lname} and I am ${this.age} and yoE ${this.experience}
+    with ${this.projects} projects`);
+}
+
+const alexDev = new DeveloperES5("Alex", "J", 30, 10, 4);
+console.log(alexDev);
+alexDev.aboutPerson()
+alexDev.aboutDev()
+
+
+const nickES5 = new PersonES5("Nick", "Smith", 12)
+console.log(nickES5);
+nickES5.aboutPerson()
+nickES5.aboutDev() //get error not a function because Object.create
+
+//ES6
+console.log("___________________________________");
+
+class PersonES6 {
+    constructor(fname, lname, age) {
+        this.fname = fname;
+        this.lname = lname;
+        this.age = age
+    }
+
+    aboutPerson() {
+        console.log("My name is " + this.fname + " " + this.lname + this.age);
+    }
+
+}
+class DevES6 extends PersonES6 {
+    constructor(fname, lname, age, experience, projects) {
+        super(fname, lname, age);
+        this.experience = experience;
+        this.projects = projects;
+    }
+
+    aboutDev() {
+        console.log(`My name is ${this.fname} ${this.lname} and I am ${this.age} and yoE ${this.experience}
+    with ${this.projects} projects`);
+    }
+}
+const nickES6 = new PersonES6('Nick', 'Smith', 28)
+nickES6.aboutPerson()
+
+const bobDev = new DevES6("Bob", "James", 40, 12, 7);
+bobDev.aboutDev()
+bobDev.aboutPerson()
+
+SECTION 9: javascript interview questions******************************************************
+
+
+
 
 
 
