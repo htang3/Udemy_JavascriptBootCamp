@@ -4,25 +4,21 @@
 *********QUIZ CONTROLLER********
 *******************************/
 //1
-var quizController = (function() {
+var quizController = (function () {
 
-    //4
-    //*********Question Constructor*********/
+    //function constructor, question constructor
     function Question(id, questionText, options, correctAnswer) {
         this.id = id;
         this.questionText = questionText;
         this.options = options;
         this.correctAnswer = correctAnswer;
     }
-
-    //13
     return {
-        //14
-        addQuestionOnLocalStorage: function(newQuestText, opts) {
-            // 18
-            // console.log('Hi');
+        addQuestionOnLocalStorage: function (newQuestionText, options) {
+
+            console.log("Hi");
         }
-    };
+    }
 
 })();
 
@@ -30,42 +26,40 @@ var quizController = (function() {
 **********UI CONTROLLER*********
 *******************************/
 //3
-var UIController = (function() {
+var UIController = (function () {
 
-    //5
+    //create Object
     var domItems = {
-        //*******Admin Panel Elements********/
-        questInsertBtn: document.getElementById('question-insert-btn'), //6
-        newQuestionText: document.getElementById('new-question-text'), //15
-        adminOptions: document.querySelectorAll('.admin-option') //16
-    };
-
-    //7
+        //Admin Panel Elements
+        questInsertBtn: document.getElementById("question-insert-btn"),
+        newQuestionText: document.getElementById('new-question-text'),
+        adminOptions: document.querySelectorAll('.admin-option')//admin-option is class
+    }
+    //return object
     return {
-        getDomItems: domItems //8
-    };
+        getDomItems: domItems
+    }
+
 
 })();
+
+
 
 /*******************************
 ***********CONTROLLER***********
 *******************************/
 //3
-var controller = (function(quizCtrl, UICtrl) {
-
-    //11
+var controller = (function (quizCtrl, UICtrl) {
     var selectedDomItems = UICtrl.getDomItems;
+    selectedDomItems.questInsertBtn.addEventListener('click', function () {
+        quizCtrl.addQuestionOnLocalStorage(selectedDomItems.newQuestionText,
+            selectedDomItems.adminOptions)
+    })
 
-    //9 -- //12 (change with var selectedDomItems)
-    selectedDomItems.questInsertBtn.addEventListener('click', function() {
-        //10
-        // console.log('Works');
-        //17
-        quizCtrl.addQuestionOnLocalStorage(selectedDomItems.newQuestionText, selectedDomItems.adminOptions);
-
-    });
 
 })(quizController, UIController);
+
+
 
 
 

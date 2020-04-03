@@ -1016,6 +1016,48 @@ xmlHttp.onload = function () {
 xmlHttp.send()
 
 SECTION 7: PROJECT - THE QUIZ APPLICATION******************************************
+74. Section introduction
+75. Project Overview
+76. Get Ready 
+77. Module Pattern
+create quizController to handle all the data
+UIController to get the element from html
+controller handle both quizController and UIController
+78. Browser Local Storage
+ localStorage.setItem("data", JSON.stringify([1, 2, 3, 4])) //open console, application, local storage
+    //remove Items
+    localStorage.removeItem('data') // data will be removed
+    console.log(JSON.parse(localStorage.getItem('data'))); //typeof String
+79. Add Questions - part1
+in UIController, get Element Btn and store as an object, then return object
+in controller, addEventListener for the InsertBtn
+
+80. Add Questions - Part2
+in UIController, get newQuestionText and AdminOptions
+in quizController, create a new optionsArr to store options,
+newQuestion Object, Correct answer, and new Question text
+set the condition for correct option, if it not null and checkbox is checked
+then push to Array options
+
+81. Add Questions - Part3 bind data to localStorage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 SECTION 8: Next Generation JS
@@ -1077,7 +1119,7 @@ var persons = [
 ]
 
 var newArrMale = persons.find(function (person) {
-    return person.gender === "male" //after it find the person made condition, it stope iteration
+    return person.gender === "male" //after it find the 1st person made condition, it stop iteration
 })
 
 console.log(newArrMale);
@@ -1110,7 +1152,7 @@ var some = persons.some(function (person) {
 })
 console.log(some);
 
-106. Arrays Helper - reduce();
+106. Arrays Helper - reduce()****;
 var persons = [100, 200, 300];
 
 var sum = 0;
@@ -1284,7 +1326,7 @@ var personES6 = {
     }
 }
 
-personES6.fullname()();
+personES6.fullname()();//Nick Doe
 
 document.querySelector('h1').addEventListener('click', function () {
     console.log(this);
@@ -1360,8 +1402,8 @@ function sum(x, y, z) {
 
 let numbers = [10, 20, 30];
 
-sum.apply(null, numbers)
-sum(...numbers) //Spread Operator
+sum.apply(null, numbers)//60
+sum(...numbers) //Spread Operator//60
 
 114. Rest Operator
 // const a = function (x, y) {
@@ -1406,11 +1448,11 @@ const person = {
 // const a = person.fname
 // const b  = person.lname
 const { age, fname, lname } = person;
-console.log(age, fname, lname);
+console.log(age, fname, lname); // 30 John Smith
 
 
 //////////////function
-const aboutMe = john => {
+const aboutMe = john => { ///john is paramenter, person object
     const { fname, lname, age } = john;
     console.log(`I am ${fname} ${lname} and I am ${age}`);
 }
@@ -1428,15 +1470,15 @@ const mapDate = new Map([
     [10, 'ten'],
     ['isMarried', false]
 ]);
-mapDate.set('name', "John")
+mapDate.set('name', "John") //without
 
 mapDate.set(true, "Yes")
 const obj = {};
 mapDate.set(obj, 'person')
-console.log(mapDate); //{name=> John}
+console.log(mapDate); //{name=> John, "true"=> "Yes", {}=> "person"}
 
 //get the size
-console.log(mapDate.size);
+console.log(mapDate.size); //3
 
 //get item
 console.log(mapDate.get('name'));
@@ -1450,6 +1492,9 @@ console.log(mapDate);
 // mapDate.forEach((value, key) => {
 //     console.log(value, key);
 // })
+mapDate.forEach(value, key)=>{
+    console.log(value, key);
+}
 for (let value of mapDate.values()) {
     console.log(value); // print all the value
 }
@@ -1474,7 +1519,7 @@ setData.add("nick")
 console.log(setData);
 
 for (let value of setData.values()) {
-    console.log(value);
+    console.log(value); get all the value
 }
 
 for (let value of setData.entries()) {
@@ -1487,10 +1532,12 @@ function PersonES5(fname, lname, age) {
     this.lname = lname;
     this.age = age
 }
+//create function aboutPerson
 PersonES5.prototype.aboutPerson = function () {
     console.log("My name is " + this.fname + " " + this.lname + this.age);
 }
 function DeveloperES5(fname, lname, age, experience, projects) {
+    //this refer to PersonES5
     PersonES5.call(this, fname, lname, age) //call Person ES5
     this.experience = experience;
     this.projects = projects;
@@ -1502,19 +1549,18 @@ DeveloperES5.prototype.aboutDev = function () {
 }
 
 const alexDev = new DeveloperES5("Alex", "J", 30, 10, 4);
-console.log(alexDev);
-alexDev.aboutPerson()
+console.log(alexDev);//DeveloperES5{}
+alexDev.aboutPerson()//alexDev inherits aboutPerson from Person ES5
 alexDev.aboutDev()
 
 
 const nickES5 = new PersonES5("Nick", "Smith", 12)
-console.log(nickES5);
-nickES5.aboutPerson()
+console.log(nickES5);//PersonES5 {fname: "nick", lname: "Smith"}
+nickES5.aboutPerson()//  My name is Nick Smith, and  I am 
 nickES5.aboutDev() //get error not a function because Object.create
 
 //ES6
 console.log("___________________________________");
-
 class PersonES6 {
     constructor(fname, lname, age) {
         this.fname = fname;
@@ -1539,9 +1585,9 @@ class DevES6 extends PersonES6 {
     with ${this.projects} projects`);
     }
 }
-const nickES6 = new PersonES6('Nick', 'Smith', 28)
-nickES6.aboutPerson()
-
+const nickES6 = new PersonES6('Nick', 'Smith', 28)//PersonES6{}
+nickES6.aboutPerson()//My name is Nick Smith and I am 28 yO
+nickES6.aboutDev()// will throw an error
 const bobDev = new DevES6("Bob", "James", 40, 12, 7);
 bobDev.aboutDev()
 bobDev.aboutPerson()
