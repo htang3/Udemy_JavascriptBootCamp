@@ -34,8 +34,35 @@ var quizController = (function () {
     if (questionLocalStorage.getQuestionCollection() === null) {
         questionLocalStorage.setQuestionCollection([]);
     }
+    //quizprogress
+    var quizprogress = {
+        questionIndex: 0
+    }
     // 13
+    /***********PERSON CONSTRUCTOR*************** */
+    function Person(id, fname, lname, score) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.score = score;
+    }
+    var personLocalStorage = {
+        setPersonData: function (newPersonData) {
+            localStorage.setItem('personData', JSON.stringify(newPersonData));
+
+        },
+        getPersonData: function () {
+            return JSON.parse(localStorage.getItem('personData'))
+        },
+        removePersonData: function () {
+            localStorage.removeItem('personData');
+        }
+    };
+    if (personLocalStorage.getPersonData() === null) {
+        personLocalStorage.setPersonData([])
+    }
     return {
+        getquizProgress: quizprogress,
         // 80
         getQuestionLocalStorage: questionLocalStorage,
         // 14
@@ -133,12 +160,28 @@ var quizController = (function () {
                 // 99 otherwise
                 return false;
             }
+        },
+        checkAnswer: function (ans) {
+            if (questionLocalStorage.getQuestionCollection()[quizprogress.questionIndex].correctAnswer === ans.textContent) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
+        isFinished: function () {
+            return quizprogress.questionIndex + 1 === questionLocalStorage.getQuestionCollection().length;
         }
+
     };
 
 })();
 
-/*******************************
+/**************************************************************
+ * **************************************************************
+ * *********************************************************************************************
+ * *********************************************************************************************
+ * *********************************************************************************************
 **********UI CONTROLLER*********
 *******************************/
 // 2
@@ -155,6 +198,18 @@ var UIController = (function () {
         updateQuestionBtn: document.getElementById("question-update-btn"),
         deleteQuestionBtn: document.getElementById("question-delete-btn"),
         clearListQuestionBtn: document.getElementById("questions-clear-btn"),
+        /* ************ Quiz Section*******************/
+        askedQuestionText: document.getElementById("asked-question-text"),
+        quizOptionWrapper: document.querySelector(".quiz-options-wrapper"),
+        // queryselector the tag progress. the number
+        progressBar: document.querySelector("progress"),
+        //the filled bar
+        progressPar: document.getElementById('progress'),
+        instAnsContainer: document.querySelector(".instant-answer-container"),
+        instAnsText: document.getElementById("instant-answer-text"),
+        instAnsDiv: document.getElementById("instant-answer-wrapper"),
+        emotionIcon: document.getElementById("emotion"),
+        nextQuestbtn: document.getElementById("next-question-btn"),
     };
 
     // 7
@@ -243,11 +298,34 @@ var UIController = (function () {
                 domItems.questInsertBtn.style.visibility = "hidden"
                 //pointerEvent handle mouseevent
                 domItems.clearListQuestionBtn.style.pointerEvents = "none"
+
+                //backDefaultView
+                var backDefaultView = function () {
+                    var updatedOptions;
+                    updatedOptions = document.querySelectorAll('.admin-option');
+                    //after insert, update the field
+                    domItems.newQuestionText.value = "";
+                    for (var i = 0; i < updatedOptions.length; i++) {
+                        updatedOptions[i].value = "";
+                        updatedOptions[i].previousElementSibling.checked = false;
+                    }
+
+                    //update VISIbility of button
+                    domItems.updateQuestionBtn.style.visibility = "hidden";
+                    domItems.deleteQuestionBtn.style.visibility = "hidden";
+                    domItems.questInsertBtn.style.visibility = "visible"
+                    //pointerEvent handle mouseevent
+                    domItems.clearListQuestionBtn.style.pointerEvents = "";
+
+                    //update dynamically because create createQuestionList (param)
+                    updatequestionDyFn(storedQuestionList);
+                }
+
                 //Update Button
                 var updateQuestion = function () {
                     var newOptions, optionElm;
                     newOptions = [];
-                    optionElm = document.querySelectorAll('.admin-option');
+
                     //foundItem is the current question found
                     //
                     foundItem.questionText = domItems.newQuestionText.value;
@@ -274,23 +352,8 @@ var UIController = (function () {
                                 getStorageQuestList.splice(placeInArr, 1, foundItem);
                                 //add update getStorageQuestList to storedQuestionList.
                                 storedQuestionList.setQuestionCollection(getStorageQuestList)
-                                //after insert, update the field
-                                domItems.newQuestionText.value = "";
-                                for (var i = 0; i < optionElm.length; i++) {
-                                    optionElm[i].value = "";
-                                    optionElm[i].previousElementSibling.checked = false;
-                                }
 
-                                //update VISIbility of button
-                                domItems.updateQuestionBtn.style.visibility = "hidden";
-                                domItems.deleteQuestionBtn.style.visibility = "hidden";
-                                domItems.questInsertBtn.style.visibility = "visible"
-                                //pointerEvent handle mouseevent
-                                domItems.clearListQuestionBtn.style.pointerEvents = "";
-
-                                //update dynamically because create createQuestionList (param)
-                                updatequestionDyFn(storedQuestionList);
-
+                                backDefaultView();
                             }
                             else {
                                 alert("Please enter correct answer")
@@ -308,10 +371,84 @@ var UIController = (function () {
 
                 }
                 domItems.updateQuestionBtn.onclick = updateQuestion;
+                var deleteQuestion = function () {
+                    console.log("Delete");
+                    getStorageQuestList.splice(placeInArr, 1);
+
+                    storedQuestionList.setQuestionCollection(getStorageQuestList);
+                    backDefaultView();
+                }
+                domItems.deleteQuestionBtn.onclick = deleteQuestion;
+
             }
 
+        },
+
+        clearQuestionList: function (storedQuestionList) {
+            //if stored Question list. get collection not null
+            if (storedQuestionList.getQuestionCollection() != null) {
+                //if the length of collection >0
+                if (storedQuestionList.getQuestionCollection().length > 0) {
+                    //confirm() return true or false, warn the user
+                    var conf = confirm("Warning: you will lose entire question list"); //return true or false
+                    //if true then remove the question, set empty string
+                    if (conf) {
+                        storedQuestionList.removeQuestionCollection();
+                        domItems.insertedQuestsWrapper.innerHTML = ""; //reload dynamically and delete the array items
+                    }
+                }
+            }
+
+
+        },
+
+        //displayQuestion
+        displayQuestion: function (storedQuestionList, progress) {
+            var newOptionHTML, characterArr;
+            characterArr = ['A', 'B', 'C', 'D', 'E', 'F'];
+            if (storedQuestionList.getQuestionCollection().length > 0) {
+                //display the question text on UI
+                domItems.askedQuestionText.textContent = storedQuestionList.getQuestionCollection()[progress.questionIndex].questionText;
+                domItems.quizOptionWrapper.innerHTML = ""; //first need to clear default value
+                for (var i = 0; i < storedQuestionList.getQuestionCollection()[progress.questionIndex].options.length; i++) {
+                    newOptionHTML = '<div class="choice-' + i + '"><span class="choice-' + i + '">' + characterArr[i] + '</span><p  class="choice-' + i + '">'
+                        + storedQuestionList.getQuestionCollection()[progress.questionIndex].options[i] + '</p></div>';
+                    domItems.quizOptionWrapper.insertAdjacentHTML("beforeend", newOptionHTML);
+                }
+            }
+        },
+        displayProgress: function (storedQuestionList, progress) {
+            domItems.progressBar.max = storedQuestionList.getQuestionCollection().length;
+            domItems.progressBar.value = progress.questionIndex + 1; // because default questioIndex =0;
+            domItems.progressPar.textContent = (progress.questionIndex + 1) + "/" + storedQuestionList.getQuestionCollection().length;
+        },
+
+        newDesign: function (ansResult, selectedAnswer) {
+            var twoOptions, index;
+            index = 0;
+            if (ansResult) {
+                index = 1;
+            }
+            twoOptions = {
+                instAnswerText: ['This is a wrong answer', "This is a correct answer"],
+                instAnsClass: ['red', 'green'],
+                emotionType: ['images/sad.png', 'images/happy.png'],
+                optionSpanbg: ['rgba(200,0,0, .7)', 'rgba(0,250,0,.2']
+            }
+            domItems.quizOptionWrapper.style.cssText = "opacity: 0.6; pointer-events:none;"; //make it transparent
+            domItems.instAnsContainer.style.cssText = "opacity: 1;";
+            domItems.instAnsText.textContent = twoOptions.instAnswerText[index];
+            domItems.instAnsDiv.className = twoOptions.instAnsClass[index];
+            domItems.emotionIcon.setAttribute('src', twoOptions.emotionType[index]);
+            selectedAnswer.previousElementSibling.style.backgroundColor = twoOptions.optionSpanbg[index]
+        },
+
+        resetDesign: function () {
+            domItems.quizOptionWrapper.style.cssText = ""; //make it transparent
+            domItems.instAnsContainer.style.opacity = "0";
         }
     };
+
 
 })();
 
@@ -348,6 +485,45 @@ var controller = (function (quizCtrl, UICtrl) {
             UICtrl.addInputsDynamically, UICtrl.createQuestionList);
     })
 
+    //clear
+    selectedDomItems.clearListQuestionBtn.addEventListener('click', function () {
+        UICtrl.clearQuestionList(quizCtrl.getQuestionLocalStorage);
+    })
+    //displayQuestion
+    UICtrl.displayQuestion(quizCtrl.getQuestionLocalStorage, quizCtrl.getquizProgress);
+
+    UICtrl.displayProgress(quizCtrl.getQuestionLocalStorage, quizCtrl.getquizProgress);
+
+    selectedDomItems.quizOptionWrapper.addEventListener('click', function (e) {
+        var updatedOptionDiv = selectedDomItems.quizOptionWrapper.querySelectorAll('div');
+        for (var i = 0; i < updatedOptionDiv.length; i++) {
+            if (e.target.className === 'choice-' + i) {
+                var answer = document.querySelector('.quiz-options-wrapper div p.' + e.target.className);
+                var answerResult = quizCtrl.checkAnswer(answer);
+                //console.log(e.target.className); //choice - #
+                UICtrl.newDesign(answerResult, answer);
+                //when it gets to the last question, set the next button to finish.
+                if (quizCtrl.isFinished()) {
+                    selectedDomItems.nextQuestbtn.textContent = 'Finish'
+                }
+                var nextQuestion = function (questData, progress) {
+                    if (quizCtrl.isFinished()) {
+                        //finished quiz
+                        console.log('Finished');
+                    }
+                    else {
+                        UICtrl.resetDesign(); //if not finished, reset the design of the quiz.
+                        quizCtrl.getquizProgress.questionIndex++; //we need to increase the index.
+                        UICtrl.displayQuestion(quizCtrl.getQuestionLocalStorage, quizCtrl.getquizProgress);
+                        UICtrl.displayProgress(quizCtrl.getQuestionLocalStorage, quizCtrl.getquizProgress)
+                    }
+                }
+                selectedDomItems.nextQuestbtn.onclick = function () {
+                    nextQuestion(quizCtrl.getQuestionLocalStorage, quizCtrl.getquizProgress)
+                }
+            }
+        }
+    })
 })(quizController, UIController);
 
 
