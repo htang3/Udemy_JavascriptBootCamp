@@ -46,6 +46,11 @@ var quizController = (function () {
         this.lname = lname;
         this.score = score;
     }
+    var currPersonData = {
+        fullname: [],
+        score: 0
+    };
+    var adminFullName = ['John', 'Smith']
     var personLocalStorage = {
         setPersonData: function (newPersonData) {
             localStorage.setItem('personData', JSON.stringify(newPersonData));
@@ -163,6 +168,7 @@ var quizController = (function () {
         },
         checkAnswer: function (ans) {
             if (questionLocalStorage.getQuestionCollection()[quizprogress.questionIndex].correctAnswer === ans.textContent) {
+                currPersonData.score++;
                 return true;
             }
             else {
@@ -171,7 +177,26 @@ var quizController = (function () {
         },
         isFinished: function () {
             return quizprogress.questionIndex + 1 === questionLocalStorage.getQuestionCollection().length;
-        }
+        },
+        addPerson: function () {
+            var newPerson, personid, personData;
+            // for id
+            if (personLocalStorage.getPersonData().length > 0) {
+                personid = personLocalStorage.getPersonData()[personLocalStorage.getPersonData().length - 1].id + 1;
+            } else {
+                personid = 0;
+            }
+            //fname
+            newPerson = new Person(personid, currPersonData.fullname[0], currPersonData.fullname[1], currPersonData.score);
+            personData = personLocalStorage.getPersonData();
+            personData.push(newPerson);
+            //update array
+            personLocalStorage.setPersonData(personData);
+            console.log(newPerson);
+        },
+        getCurrPersonData: currPersonData,
+        getAdminFullName: adminFullName,
+        getPersonLocalStorage: personLocalStorage,
 
     };
 
@@ -190,6 +215,7 @@ var UIController = (function () {
     // 5
     var domItems = {
         //*******Admin Panel Elements********/
+        adminpanelSection: document.querySelector(".admin-panel-container"),
         questInsertBtn: document.getElementById('question-insert-btn'), // 6
         newQuestionText: document.getElementById('new-question-text'), // 15
         adminOptions: document.querySelectorAll('.admin-option'), // 16
@@ -198,7 +224,10 @@ var UIController = (function () {
         updateQuestionBtn: document.getElementById("question-update-btn"),
         deleteQuestionBtn: document.getElementById("question-delete-btn"),
         clearListQuestionBtn: document.getElementById("questions-clear-btn"),
+        resultListWrapper: document.querySelector(".results-list-wrapper"),
+        clearResultBtn: document.getElementById("results-clear-btn"),
         /* ************ Quiz Section*******************/
+        quizSection: document.querySelector('.quiz-container'),
         askedQuestionText: document.getElementById("asked-question-text"),
         quizOptionWrapper: document.querySelector(".quiz-options-wrapper"),
         // queryselector the tag progress. the number
@@ -210,6 +239,14 @@ var UIController = (function () {
         instAnsDiv: document.getElementById("instant-answer-wrapper"),
         emotionIcon: document.getElementById("emotion"),
         nextQuestbtn: document.getElementById("next-question-btn"),
+        ///Landing page
+        landingPageSection: document.querySelector(".landing-page-container"),
+        startQuizBtn: document.getElementById('start-quiz-btn'),
+        firstnameInput: document.getElementById('firstname'),
+        lastnameInput: document.getElementById('lastname'),
+        //Final result
+        finalScoreText: document.getElementById("final-score-text"),
+        finalResultSection: document.querySelector(".final-result-container"),
     };
 
     // 7
@@ -446,7 +483,84 @@ var UIController = (function () {
         resetDesign: function () {
             domItems.quizOptionWrapper.style.cssText = ""; //make it transparent
             domItems.instAnsContainer.style.opacity = "0";
+        },
+        getFullName: function (currPerson, storedQuestionList, admin) {
+            if (domItems.firstnameInput.value !== "" && domItems.lastnameInput.value !== "") {
+                if (!(domItems.firstnameInput.value === admin[0] && domItems.lastnameInput.value === admin[1])) {
+                    if (storedQuestionList.getQuestionCollection().length > 0) {
+                        currPerson.fullname.push(domItems.firstnameInput.value);
+                        currPerson.fullname.push(domItems.lastnameInput.value)
+                        domItems.landingPageSection.style.display = "none";
+                        domItems.quizSection.style.display = "block";
+                        console.log(currPerson);
+                    }
+                    else {
+                        alert('quiz is not ready, please contact admin')
+                    }
+
+                }
+                else {
+                    domItems.landingPageSection.style.display = "none";
+                    domItems.adminpanelSection.style.display = "block";
+                }
+            }
+            else {
+                alert("Please enter your firstname and lastname");
+            }
+
+
+        },
+        finalResult: function (currPerson) {
+            domItems.finalScoreText.textContent = currPerson.fullname[0] + ' ' + currPerson.fullname[1] + ", your final score is " + currPerson.score;
+            domItems.quizSection.style.display = "none";
+            domItems.finalResultSection.style.display = "block";
+        },
+        addResultOnPanel: function (userData) {
+            var resultHTML;
+            domItems.resultListWrapper.innerHTML = "";
+            console.log(userData.getPersonData());
+            for (var i = 0; i < userData.getPersonData().length; i++) {
+                resultHTML = '<p class="person person-' + i + '"><span class="person-' + i + '">' +
+                    userData.getPersonData()[i].fname + ' ' +
+                    userData.getPersonData()[i].lname + ' - ' +
+                    userData.getPersonData()[i].score + ' Points</span><button id="delete-result-btn_' +
+                    userData.getPersonData()[i].id + '" class="delete-result-btn">Delete</button></p>';
+                domItems.resultListWrapper.insertAdjacentHTML('afterbegin', resultHTML);
+            }
+
+        },
+        deleteResult: function (event, userData) {
+            var getId, personArr;
+            personArr = userData.getPersonData();
+
+            if ('delete-result-btn_'.indexOf(event.target.id)) {
+                getId = parseInt(event.target.id.split("_")[1]);
+                for (var i = 0; i < personArr.length; i++) {
+                    if (personArr[i].id === getId) {
+                        //now delete
+                        personArr.splice(i, 1);
+                        //override new updated array
+                        userData.setPersonData(personArr);
+                    }
+                }
+            }
+        },
+        clearResultList: function (userData) {
+            var conf;
+            if (userData.getPersonData() != null) {
+                if (userData.getPersonData().length > 0) {
+                    conf = confirm("Warning: you will lose entire list");
+
+                    if (conf) {
+                        userData.removePersonData();
+                        domItems.resultListWrapper.innerHTML = "";
+                    }
+                }
+            }
+
+
         }
+
     };
 
 
@@ -509,6 +623,8 @@ var controller = (function (quizCtrl, UICtrl) {
                 var nextQuestion = function (questData, progress) {
                     if (quizCtrl.isFinished()) {
                         //finished quiz
+                        quizCtrl.addPerson()
+                        UICtrl.finalResult(quizCtrl.getCurrPersonData);
                         console.log('Finished');
                     }
                     else {
@@ -523,7 +639,27 @@ var controller = (function (quizCtrl, UICtrl) {
                 }
             }
         }
-    })
+    }),
+        selectedDomItems.startQuizBtn.addEventListener('click', function () {
+            UICtrl.getFullName(quizCtrl.getCurrPersonData, quizCtrl.getQuestionLocalStorage, quizCtrl.getAdminFullName)
+        });
+    //add enter key to lasname
+    selectedDomItems.lastnameInput.addEventListener('focus', function () {
+        selectedDomItems.lastnameInput.addEventListener('keypress', function (e) {
+            if (e.keyCode === 13) {
+                UICtrl.getFullName(quizCtrl.getCurrPersonData, quizCtrl.getQuestionLocalStorage, quizCtrl.getAdminFullName)
+            }
+        })
+    }),
+        UICtrl.addResultOnPanel(quizCtrl.getPersonLocalStorage);
+    selectedDomItems.resultListWrapper.addEventListener('click', function (e) {
+        UICtrl.deleteResult(e, quizCtrl.getPersonLocalStorage)
+        UICtrl.addResultOnPanel(quizCtrl.getPersonLocalStorage);
+    }),
+        selectedDomItems.clearResultBtn.addEventListener('click', function () {
+            UICtrl.clearResultList(quizCtrl.getPersonLocalStorage);
+        })
+
 })(quizController, UIController);
 
 
